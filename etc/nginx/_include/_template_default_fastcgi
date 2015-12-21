@@ -1,0 +1,24 @@
+#location / {
+#	index index.html index.htm index.php;
+#}
+
+location ~ ^.*\.php
+{
+	include /etc/nginx/_include/_fastcgi;
+}
+
+# if file exists return it right away
+if (-f $request_filename) {
+	break;
+}
+
+location / {
+	try_files $uri $uri/ @phpfpm;
+	index index.html index.php;
+#	error_page 403 = @router;
+#	error_page 404 = @router;
+}
+
+location @phpfpm {
+	rewrite ^(.+)$ /index.php$1 last;
+}

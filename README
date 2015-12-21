@@ -1,7 +1,8 @@
 
-Script and environment to add new use on my vps 
+Script and environment to add new user on my vps 
 
 History:
 
-v0.2: 2012-03-09 -- add functional for gentoo
-v0.1: 2011-10-16
+v20151221.03 : nginx + fpm - apache = love
+v20120309.02 : add functional for gentoo
+v20111016.01

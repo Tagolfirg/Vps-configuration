@@ -1,0 +1,26 @@
+# www.%SITENAME%
+# %SITENAME%
+
+server {
+	listen 80;
+	server_name www.%SITENAME%;
+	rewrite . http://%SITENAME%$request_uri permanent;
+	break;
+}
+
+server {
+	listen 80;
+	server_name %SITENAME%;
+
+	access_log /var/log/nginx/%SITEPATH%.access.log;
+	charset utf-8;
+	root /home/%SITEPATH%/public_html;
+
+	include /etc/nginx/_include/_denied;
+
+	set $custom_request_uri  $request_uri;
+	set $custom_document_uri $document_uri;
+	set $socket_path         'php5-fpm-%SITEPATH%.sock';
+
+	include /etc/nginx/_include/_template_default_fastcgi;
+}

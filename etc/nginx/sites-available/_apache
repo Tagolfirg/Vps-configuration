@@ -1,3 +1,0 @@
-location @apache {
-    include /etc/nginx/sites-available/_proxy;
-}
