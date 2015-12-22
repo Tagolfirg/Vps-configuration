@@ -86,8 +86,8 @@ if (confirmation('Adding user '.USERNAME.'?') === true) {
         chmod('/home/'.USERNAME, 0750);
 
         // Create public html dir and default placeholder
-        mkdir('/home/'.USERNAME.'/public_html', 0777);
-        chmod('/home/'.USERNAME.'/public_html', 0777);
+        mkdir('/home/'.USERNAME.'/public_html', 0770);
+        chmod('/home/'.USERNAME.'/public_html', 0770);
 
         // Create a defult index.html
         file_put_contents('/home/'.USERNAME.'/public_html/index.html', SITENAME);
