@@ -20,6 +20,7 @@ define('USERGROUP', USERNAME);
 
 define('NGINX_DIR', '/etc/nginx/');
 define('PHPFPM_DIR', '/etc/php/fpm-php5.6/');
+define('PHPFPM_SESSION_PATH', '/var/lib/php/session/%USERNAME/'); // Change it also in php-fpm template
 
 $array_find    = array('%SITENAME%','%SITEPATH%','%USERNAME%','%USERGROUP%');
 $array_replace = array(SITENAME,SITEPATH,USERNAME,USERGROUP);
@@ -113,6 +114,9 @@ if (confirmation('Create rule for php-fpm for site '.SITENAME.'?') === true) {
         $php_fpm_rule_path         = PHPFPM_DIR . 'sites-available/' . SITEPATH;
         $php_fpm_rule_enabled_path = PHPFPM_DIR . 'sites-enabled/'   . SITEPATH;
         file_put_contents($php_fpm_rule_path, $php_fpm_rule_content);
+
+        exec("mkdir -p "  . str_replace($array_find, $array_replace, PHPFPM_SESSION_PATH));
+        exec("chmod 770 " . str_replace($array_find, $array_replace, PHPFPM_SESSION_PATH));
 
         if (confirmation('Enable rule for php-fpm for site ' . SITENAME .'?') === true) {
             exec("ln -s {$php_fpm_rule_path} {$php_fpm_rule_enabled_path}");
