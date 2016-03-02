@@ -115,8 +115,10 @@ if (confirmation('Create rule for php-fpm for site '.SITENAME.'?') === true) {
         $php_fpm_rule_enabled_path = PHPFPM_DIR . 'sites-enabled/'   . SITEPATH;
         file_put_contents($php_fpm_rule_path, $php_fpm_rule_content);
 
-        exec("mkdir -p "  . str_replace($array_find, $array_replace, PHPFPM_SESSION_PATH));
-        exec("chmod 770 " . str_replace($array_find, $array_replace, PHPFPM_SESSION_PATH));
+        $php_fpm_session_path = str_replace($array_find, $array_replace, PHPFPM_SESSION_PATH);
+        exec("mkdir -p {$php_fpm_session_path}");
+        exec(sprintf('chown %s:%s -R %s', USERNAME, USERNAME, $php_fpm_session_path));
+        exec("chmod 770 {$php_fpm_session_path}");
 
         if (confirmation('Enable rule for php-fpm for site ' . SITENAME .'?') === true) {
             exec("ln -s {$php_fpm_rule_path} {$php_fpm_rule_enabled_path}");
