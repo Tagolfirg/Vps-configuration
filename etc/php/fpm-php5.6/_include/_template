@@ -9,12 +9,9 @@ listen.mode                      = 0666
 user                             = %USERNAME%
 group                            = %USERNAME%
 
-pm                               = dynamic
+pm                               = ondemand
 pm.max_children                  = 50
-pm.start_servers                 = 1
-pm.min_spare_servers             = 1
-pm.max_spare_servers             = 5
-request_terminate_timeout        = 600
+request_terminate_timeout        = 600s
 php_admin_flag[log_errors]       = on
 slowlog                          = /home/%USERNAME%/log/php_%USERNAME%-slow.log
 php_admin_value[error_log]       = /home/%USERNAME%/log/php_%USERNAME%-error.log
