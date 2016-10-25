@@ -22,6 +22,6 @@ catch_workers_output             = yes
 
 
 php_value[session.save_handler]  = files
-php_value[session.save_path]     = /var/lib/php/session/%USERNAME/
+php_value[session.save_path]     = /var/lib/php/session/%USERNAME%/
 
 

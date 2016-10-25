@@ -1,8 +1,10 @@
 
 Script and environment to add new user on my vps 
 
-History:
-
-v20151221.03 : nginx + fpm - apache = love
-v20120309.02 : add functional for gentoo
-v20111016.01
+ _|          _|_|    _|_|_|    _|_|_|_|  _|                                                                    
+ _|        _|    _|  _|    _|  _|        _|                                                                    
+ _|        _|_|_|_|  _|_|_|    _|_|_|    _|                                                                    
+ _|        _|    _|  _|    _|  _|        _|                                                                    
+ _|_|_|_|  _|    _|  _|_|_|    _|_|_|_|  _|_|_|_|  
+ 
+ # http://patorjk.com/software/taag/
