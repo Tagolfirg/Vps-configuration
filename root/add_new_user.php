@@ -17,10 +17,12 @@ define('SITENAME', $argv[1]);
 define('SITEPATH', implode('_', array_reverse(explode('.', SITENAME))));
 define('USERNAME', SITEPATH);
 define('USERGROUP', USERNAME);
+define('HOME_PATH', '/home/'.USERNAME);
 
 define('NGINX_DIR', '/etc/nginx/');
 define('PHPFPM_DIR', '/etc/php/fpm-php5.6/');
 define('PHPFPM_SESSION_PATH', '/var/lib/php/session/%USERNAME/'); // Change it also in php-fpm template
+define('PHPFPM_LOG_PATH', HOME_PATH . 'log/');
 
 $array_find    = array('%SITENAME%','%SITEPATH%','%USERNAME%','%USERGROUP%');
 $array_replace = array(SITENAME,SITEPATH,USERNAME,USERGROUP);
@@ -115,10 +117,16 @@ if (confirmation('Create rule for php-fpm for site '.SITENAME.'?') === true) {
         $php_fpm_rule_enabled_path = PHPFPM_DIR . 'sites-enabled/'   . SITEPATH;
         file_put_contents($php_fpm_rule_path, $php_fpm_rule_content);
 
+        // Session path
         $php_fpm_session_path = str_replace($array_find, $array_replace, PHPFPM_SESSION_PATH);
         exec("mkdir -p {$php_fpm_session_path}");
         exec(sprintf('chown %s:%s -R %s', USERNAME, USERNAME, $php_fpm_session_path));
         exec("chmod 770 {$php_fpm_session_path}");
+
+        // Log dir
+        mkdir(PHPFPM_LOG_PATH, 0770);
+        file_put_contents(PHPFPM_LOG_PATH . 'php.slow.log', '');
+        file_put_contents(PHPFPM_LOG_PATH . 'php.error.log', '');
 
         if (confirmation('Enable rule for php-fpm for site ' . SITENAME .'?') === true) {
             exec("ln -s {$php_fpm_rule_path} {$php_fpm_rule_enabled_path}");
@@ -147,6 +155,12 @@ if (confirmation('Create rule for nginx for site '.SITENAME.'?') === true) {
         $nginx_rule_path         = NGINX_DIR . 'sites-available/' . SITEPATH;
         $nginx_rule_enabled_path = NGINX_DIR . 'sites-enabled/'   . SITEPATH;
         file_put_contents($nginx_rule_path, $nginx_rule_content);
+
+        $phpfpm_session_path = str_replace($array_find, $array_replace, PHPFPM_SESSION_PATH);
+        exec("mkdir -p {$phpfpm_session_path}");
+        exec(sprintf('chown %s:%s -R %s', USERNAME, USERNAME, $phpfpm_session_path));
+        exec("chmod 770 {$phpfpm_session_path}");
+
 
         if (confirmation('Enable rule for nginx  for site ' . SITENAME .'?') === true) {
             exec("ln -s {$nginx_rule_path} {$nginx_rule_enabled_path}");

@@ -11,13 +11,15 @@ group                            = %USERNAME%
 
 pm                               = ondemand
 pm.max_children                  = 50
-request_terminate_timeout        = 600s
+request_terminate_timeout        = 60s
 php_admin_flag[log_errors]       = on
-slowlog                          = /home/%USERNAME%/log/php_%USERNAME%-slow.log
-php_admin_value[error_log]       = /home/%USERNAME%/log/php_%USERNAME%-error.log
+request_slowlog_timeout          = 10s
+slowlog                          = /home/%USERNAME%/log/php.slow.log
+php_admin_value[error_log]       = /home/%USERNAME%/log/php.error.log
 ;php_admin_value[memory_limit]   = 128M
-;php_admin_value[error_reporting] = E_ALL
-php_admin_value[error_reporting] = E_NONE
+php_admin_value[error_reporting] = E_ALL
+catch_workers_output             = yes
+
 
 php_value[session.save_handler]  = files
 php_value[session.save_path]     = /var/lib/php/session/%USERNAME/
